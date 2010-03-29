@@ -14,7 +14,8 @@ popd >/dev/null
 sed -i -e "1s/.*/moj $VERSION/g" deploy/moj_instructions.txt
 
 echo "Creating zip..."
-rm -f deploy/moj.zip
-zip -j deploy/moj.zip deploy/moj.jar deps/CodeProcessor.jar deps/FileEdit.jar deploy/moj_instructions.txt deploy/template.cpp deploy/template.java
+target=deploy/moj_$VERSION.zip
+rm -f $target
+zip -j $target deploy/moj.jar deps/CodeProcessor.jar deps/FileEdit.jar deploy/moj_instructions.txt deploy/template.cpp deploy/template.java
 
 echo "Done."
