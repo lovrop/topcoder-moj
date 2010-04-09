@@ -39,8 +39,8 @@ public class CPPParameterTest {
       code = new ArrayList<String>();
    }
    
-   static String compressSpace(String str) {
-      return str.replaceAll("\\s+", " ").trim();
+   static String compressSpaceBeforeEquals(String str) {
+      return str.replaceFirst("\\s*=", " =").trim();
    }
    
    @Parameters
@@ -49,6 +49,8 @@ public class CPPParameterTest {
          {"int", "-2147483648", "int var = -2147483648;"},
         
          {"String", "\"test string\"", "string var = \"test string\";"},
+         {"String", "\"   multiple  spaces  \"", "string var = \"   multiple  spaces  \";"},
+         {"String", "\"  a  =  3  \"", "string var = \"  a  =  3  \";"},
         
          {"double", "1.345e08", "double var = 1.345e08;"},
         
@@ -59,7 +61,8 @@ public class CPPParameterTest {
          {"int[]", "{-2147483648, 2147483647, 0, -1, 555}", "int var[] = {-2147483648, 2147483647, 0, -1, 555};"},
          {"int[]", "{}",  "int var[] = {};"},
         
-         {"String[]", "{\"a\",\n \"\",\n \"test test\"}", "string var[] = {\"a\", \"\", \"test test\"};"},
+         {"String[]", "{\"a\",\n \"\",\n \"test test\"}", "string var[] = {\"a\",\n \"\",\n \"test test\"};"},
+         {"String[]", "{\"spaces  space\", \"a   a\"}", "string var[] = {\"spaces  space\", \"a   a\"};"},
         
          {"double[]", "{ 1e9, -3.e-012, -4, 5 }", "double var[] = { 1e9, -3.e-012, -4, 5 };"},
         
@@ -71,7 +74,7 @@ public class CPPParameterTest {
    @Test public void test() throws InvalidTypeException {
       DataType dt = DataTypeFactoryMock.getDataType(this.typename);
       generator.generateParameter(code, dt, "var", this.value, false);
-      String result = compressSpace(code.get(0).toString());
+      String result = compressSpaceBeforeEquals(code.get(0).toString());
       assertEquals(this.expected, result);
    }
 }

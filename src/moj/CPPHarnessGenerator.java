@@ -225,8 +225,13 @@ public class CPPHarnessGenerator implements HarnessGenerator {
 		while (typeName.length() < 25) {
 			typeName = typeName + " ";
 		}
+		
+		if (!baseName.equals("String")) {
+		   // Compress spaces in non-strings
+		   contents = contents.replaceAll("\\s+", " "); 
+		}
 
-		code.add("         " + typeName + " = " + contents.replaceAll("\\s+", " ") + ";");
+		code.add("         " + typeName + " = " + contents + ";");
 	}
 	
 	String vectorize(DataType type, String name, String contents, boolean isPlaceholder) {
