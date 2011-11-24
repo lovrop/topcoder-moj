@@ -74,10 +74,13 @@ Setup:
    "Configure". Under "Editor EntryPoint" write fileedit.EntryPoint.
    Configure FileEdit.
 
-   I recommend checking off "Backup existing file then overwrite". 
+   The most important part is to update the code template(s). Under
+   the "Code Template" tab, select your language and paste in the code
+   template. Included in the moj package are minimal code templates
+   for C++ and Java.
 
-   Included in the moj package are minimal code templates for C++ and
-   Java.
+   On the "General" tab I recommend turning off "Backup existing file
+   then overwrite".
 
 5. In the CodeProcessor configuration window, write moj.moj as the
    processor class and verify. If all is good, you'll get 4 "found"
