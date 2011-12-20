@@ -7,9 +7,9 @@ echo "Version is $VERSION."
 
 echo "Creating jar..."
 rm -f deploy/moj.jar
-pushd bin >/dev/null
+cd bin
 jar cf ../deploy/moj.jar moj/*.class
-popd >/dev/null
+cd ..
 
 sed -i -e "1s/.*/moj $VERSION/g" deploy/moj_instructions.txt
 

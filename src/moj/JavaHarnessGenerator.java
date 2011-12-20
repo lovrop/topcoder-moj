@@ -11,11 +11,13 @@ import com.topcoder.shared.problem.*;
 
 public class JavaHarnessGenerator implements HarnessGenerator {
 	final ProblemComponentModel m_problem;
-	final Language				    m_lang;
+	final Language				m_lang;
+	final Preferences           m_pref;
 
-	public JavaHarnessGenerator(ProblemComponentModel problem, Language lang) {
+	public JavaHarnessGenerator(ProblemComponentModel problem, Language lang, Preferences pref) {
 		m_problem = problem;
 		m_lang = lang;
+		m_pref = pref;
 	}
 	
 	public String generateDefaultMain() {
@@ -160,20 +162,31 @@ public class JavaHarnessGenerator implements HarnessGenerator {
 		code.add("   }");
 		code.add("");
 	}
-
-	void generateParameter(ArrayList<String> code, DataType paramType, String name, String input, boolean isPlaceholder) {
+	
+	void generateParameter(ArrayList<String> code, DataType paramType, String name, String contents, boolean isPlaceholder) {
 		if (isPlaceholder)
-			input = "";
+			contents = "";
 
+		String baseName = paramType.getBaseName();
+		boolean isLong = baseName.equals("long");
 		String typeName = paramType.getDescriptor(m_lang) + " " + name;
-		if (paramType.getDimension() == 0 && paramType.getBaseName().equals("long")) {
-			input += "L";
+		if (isLong) {
+			if (paramType.getDimension() == 0) {
+				contents = ConstantFormatting.formatLongForJava(contents);
+			} else {
+				contents = ConstantFormatting.formatLongArrayForJava(contents);
+			}
 		}
-
+		
 		while (typeName.length() < 25)
 			typeName = typeName + " ";
+		
+		if (!baseName.equals("String")) {
+			// Compress spaces in non-strings
+			contents = contents.replaceAll("\\s+", " "); 
+		}
 
-		code.add("         " + typeName + " = " + input.replaceAll("\n", " ") + ";");
+		code.add("         " + typeName + " = " + contents + ";");
 	}
 
 	void generateTestCase(ArrayList<String> code, int index, TestCase testCase, boolean isPlaceholder) {
@@ -218,7 +231,7 @@ public class JavaHarnessGenerator implements HarnessGenerator {
 		code.add("   static int runTestCase(int casenum) {");
 		code.add("      switch(casenum) {");
 		// Generate the individual test cases
-		for (int i = 0; i < testCases.length+3; ++i) {
+		for (int i = 0; i < testCases.length+m_pref.getNumPlaceholders(); ++i) {
 			if (i == testCases.length) {
 				code.add("");
 				code.add("      // custom cases");

@@ -9,7 +9,7 @@ import com.topcoder.shared.problem.*;
 
 public class CPPHarnessGenerator implements HarnessGenerator {
 	final ProblemComponentModel m_problem;
-	final Language				    m_lang;
+	final Language				m_lang;
 
 	final Preferences           m_pref;
 	final String                m_targetCompiler;
@@ -48,7 +48,7 @@ public class CPPHarnessGenerator implements HarnessGenerator {
 		code.add("      if (casenum != -1) {");
 		code.add("         if (run_test_case(casenum) == -1 && !quiet) {");
 		code.add("            cerr << \"Illegal input! Test case \" << casenum << \" does not exist.\" << endl;");
-      code.add("         }");
+        code.add("         }");
 		code.add("         return;");
 		code.add("      }");
 		code.add("      ");
@@ -168,19 +168,7 @@ public class CPPHarnessGenerator implements HarnessGenerator {
 		return s.replaceAll("\\s+", "").equals("{}");
 	}
 	
-   static String addLLToIntConstant(String str) {
-      if (str.trim().equals("")) {
-         return "";
-      }
-      long value = Long.valueOf(str);
-      if (value > Integer.MAX_VALUE || 
-          value < Integer.MIN_VALUE) {
-         str += "LL";
-      }
-      return str;
-   }
-
-	void generateParameter(ArrayList<String> code, DataType paramType, String name, String contents, boolean isPlaceholder) {
+   	void generateParameter(ArrayList<String> code, DataType paramType, String name, String contents, boolean isPlaceholder) {
 		if (isPlaceholder) {
 			contents = "";
 		}
@@ -192,7 +180,7 @@ public class CPPHarnessGenerator implements HarnessGenerator {
 		   // Scalar
 			typeName = paramType.getDescriptor(m_lang) + " " + name;
 			if (isLong) {
-	         contents = addLLToIntConstant(contents);
+	         contents = ConstantFormatting.formatLongForCPP(contents);
 			}
 		} else {
          typeName = (isLong ? "long long" : baseName.toLowerCase()) + " " + name + "[]";
@@ -203,21 +191,8 @@ public class CPPHarnessGenerator implements HarnessGenerator {
 		         typeName = "// " + typeName;
 		         contents = "empty, commented out for VC++";
 		      } else if (isLong) {
-		         // Vector of longs, add LL to constants
-		         String[] tokens = contents.split("[^0-9-]");
-		         StringBuffer fixed = new StringBuffer();
-		         boolean first = true;
-		         for (String token : tokens) {
-		            if (token.isEmpty()) {
-		               continue;
-		            }
-		            if (!first) {
-		               fixed.append(", ");
-		            }
-		            first = false;
-		            fixed.append(addLLToIntConstant(token));
-		         }
-		         contents = "{" + fixed.toString() + "}";
+		    	 // Vector of longs, add LL to constants
+		    	 contents = ConstantFormatting.formatLongArrayForCPP(contents);		      
 		      }
 		   }
 		}
