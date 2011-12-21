@@ -2,7 +2,7 @@
 
 cd $(dirname $0)
 
-VERSION=$(egrep -o 'Powered by moj [0-9.]+' src/moj/moj.java | egrep -o '[0-9.]+')
+VERSION=$(egrep -o 'Powered by moj [0-9][0-9a-zA-Z.]+' src/moj/moj.java | egrep -o '[0-9][0-9a-zA-Z.]+')
 echo "Version is $VERSION."
 
 echo "Creating jar..."
