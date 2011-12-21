@@ -263,14 +263,14 @@ public class CPPHarnessGenerator implements HarnessGenerator {
         call.append(");");
         code.add("         " + call);
 
-        code.add("         return verify_case(casenum, " + vectorize(returnType, "expected__", output, isPlaceholder) + ", received__, clock()-start__);");
+        code.add("         return verify_case(casenum__, " + vectorize(returnType, "expected__", output, isPlaceholder) + ", received__, clock()-start__);");
     }
 
     void generateRunTestCase(ArrayList<String> code) {
         TestCase[] testCases = m_problem.getTestCases();
 
-        code.add("   int run_test_case(int casenum) {");
-        code.add("      switch (casenum) {");
+        code.add("   int run_test_case(int casenum__) {");
+        code.add("      switch (casenum__) {");
         // Generate the individual test cases
         int totalCases = testCases.length + m_pref.getNumPlaceholders();
         for (int i = 0; i < totalCases; ++i) {

@@ -212,7 +212,7 @@ public class JavaHarnessGenerator implements HarnessGenerator {
         code.add("");
 
         StringBuffer line = new StringBuffer();
-        line.append("         return verifyCase(casenum, expected__, new " + m_problem.getClassName() + "()." + m_problem.getMethodName() + "(");
+        line.append("         return verifyCase(casenum__, expected__, new " + m_problem.getClassName() + "()." + m_problem.getMethodName() + "(");
 
         // Generate the function call list
         for (int i = 0; i < inputs.length; ++i) {
@@ -228,8 +228,8 @@ public class JavaHarnessGenerator implements HarnessGenerator {
     void generateRunTestCase(ArrayList<String> code) {
         TestCase[] testCases = m_problem.getTestCases();
 
-        code.add("   static int runTestCase(int casenum) {");
-        code.add("      switch(casenum) {");
+        code.add("   static int runTestCase(int casenum__) {");
+        code.add("      switch(casenum__) {");
         // Generate the individual test cases
         for (int i = 0; i < testCases.length+m_pref.getNumPlaceholders(); ++i) {
             if (i == testCases.length) {
