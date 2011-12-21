@@ -8,61 +8,61 @@ import com.topcoder.shared.problem.ProblemComponent;
 import com.topcoder.shared.problem.TestCase;
 
 public class ProblemComponentModelMock implements ProblemComponentModel {
-   
-   public String getClassName() {
-      return "ProblemComponentModelMock";
-   }
 
-   public ProblemComponent getComponent() {
-      return null;
-   }
+    public String getClassName() {
+        return "ProblemComponentModelMock";
+    }
 
-   public ComponentChallengeData getComponentChallengeData() {
-      return null;
-   }
+    public ProblemComponent getComponent() {
+        return null;
+    }
 
-   public Integer getComponentTypeID() {
-      return null;
-   }
+    public ComponentChallengeData getComponentChallengeData() {
+        return null;
+    }
 
-   public String getDefaultSolution() {
-      return null;
-   }
+    public Integer getComponentTypeID() {
+        return null;
+    }
 
-   public Long getID() {
-      return null;
-   }
+    public String getDefaultSolution() {
+        return null;
+    }
 
-   public String getMethodName() {
-      return "mockMethod";
-   }
+    public Long getID() {
+        return null;
+    }
 
-   public String[] getParamNames() {
-      return new String[]{};
-   }
+    public String getMethodName() {
+        return "mockMethod";
+    }
 
-   public DataType[] getParamTypes() {
-      return new DataType[]{};
-   }
+    public String[] getParamNames() {
+        return new String[]{};
+    }
 
-   public Double getPoints() {
-      return null;
-   }
+    public DataType[] getParamTypes() {
+        return new DataType[]{};
+    }
 
-   public ProblemModel getProblem() {
-      return null;
-   }
+    public Double getPoints() {
+        return null;
+    }
 
-   public DataType getReturnType() {
-      return null;
-   }
+    public ProblemModel getProblem() {
+        return null;
+    }
 
-   public TestCase[] getTestCases() {
-      return null;
-   }
+    public DataType getReturnType() {
+        return null;
+    }
 
-   public boolean hasTestCases() {
-      return false;
-   }
+    public TestCase[] getTestCases() {
+        return null;
+    }
+
+    public boolean hasTestCases() {
+        return false;
+    }
 
 }
