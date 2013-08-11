@@ -18,14 +18,23 @@ public class Preferences {
     public final static String KEY_LANGUAGESWITCHWORKAROUND = "moj.config.languageswitchworkaround";
     public final static String KEY_ENABLEJAVASUPPORT = "moj.config.enablejavasupport";
 
-    public final static String TARGETCOMPILER_GCC = "GCC";
+    public final static String TARGETCOMPILER_GCC11 = "GCC -std=c++11";
+    public final static String TARGETCOMPILER_GCC98 = "GCC (deprecated)";
     public final static String TARGETCOMPILER_VC = "Visual C++";
+    public final static String TARGETCOMPILER_DEFAULT = TARGETCOMPILER_GCC11;
 
     public Preferences() { 
     }
 
     public String getTargetCompiler() {
-        return getStringProperty(KEY_TARGETCOMPILER, TARGETCOMPILER_GCC);
+        String compiler = getStringProperty(KEY_TARGETCOMPILER, TARGETCOMPILER_DEFAULT);
+        if (!compiler.equals(TARGETCOMPILER_GCC11) &&
+            !compiler.equals(TARGETCOMPILER_GCC98) &&
+            !compiler.equals(TARGETCOMPILER_VC)) {
+            // Force any no-longer-supported settings to the current default
+            compiler = TARGETCOMPILER_DEFAULT;
+        }
+        return compiler;
     }
 
     public void setTargetCompiler(String compiler) {

@@ -15,7 +15,7 @@ public class moj {
     private static final String k_TESTCODE      = "$TESTCODE$";
     private static final String k_DEFAULTMAIN   = "$DEFAULTMAIN$";
     private static final String k_RUNTEST       = "$RUNTEST$";
-    private static final String k_VERSION       = "\n// Powered by moj 4.17 [modified TZTester]";
+    private static final String k_VERSION       = "\n// Powered by moj 4.18 [modified TZTester]";
 
     // Preferences
     private Preferences pref = new Preferences();

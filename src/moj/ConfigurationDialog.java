@@ -3,6 +3,7 @@ package moj;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.swing.*;
 
@@ -13,7 +14,8 @@ class ConfigurationDialog extends JDialog implements ActionListener {
     private Preferences pref;
 
     private ButtonGroup compilerButtonGroup = new ButtonGroup();
-    private JRadioButton gccRadioButton     = new JRadioButton("GCC");
+    private JRadioButton gcc11RadioButton   = new JRadioButton("GCC -std=c++11");
+    private JRadioButton gcc98RadioButton   = new JRadioButton("Older GCC");
     private JRadioButton vcRadioButton      = new JRadioButton("Visual C++");
 
     private JTextField placeholdersTextField = new JTextField();
@@ -45,20 +47,26 @@ class ConfigurationDialog extends JDialog implements ActionListener {
         compilerLabel.setBackground(Common.WPB_COLOR);
         compilerLabel.setToolTipText("Select the compiler you will be using. moj needs to make adjustments to the testing code for it to compile under Visual C++.");
 
-        compilerButtonGroup.add(gccRadioButton);
+        compilerButtonGroup.add(gcc11RadioButton);
+        compilerButtonGroup.add(gcc98RadioButton);
         compilerButtonGroup.add(vcRadioButton);
-        if (pref.getTargetCompiler().equals(Preferences.TARGETCOMPILER_GCC)) {
-            gccRadioButton.setSelected(true);
+        
+        String current_compiler = pref.getTargetCompiler();
+        if (current_compiler.equals(Preferences.TARGETCOMPILER_GCC11)) {
+            gcc11RadioButton.setSelected(true);
+        } else if (current_compiler.equals(Preferences.TARGETCOMPILER_GCC98)) {
+            gcc98RadioButton.setSelected(true);
         } else {
             vcRadioButton.setSelected(true);
         }
 
-        gccRadioButton.setForeground(Common.FG_COLOR);
-        gccRadioButton.setBackground(Common.WPB_COLOR);
-        gccRadioButton.setText("<html><body><font color=\"#ffffff\">" + gccRadioButton.getText() + "</font></body></html>");
-        vcRadioButton.setForeground(Common.FG_COLOR);
-        vcRadioButton.setBackground(Common.WPB_COLOR);
-        vcRadioButton.setText("<html><body><font color=\"#ffffff\">" + vcRadioButton.getText() + "</font></body></html>");
+        for (Enumeration<AbstractButton> eRadio=compilerButtonGroup.getElements(); eRadio.hasMoreElements(); ) {
+            //Iterating over the Radio Buttons
+            JRadioButton button = (JRadioButton)eRadio.nextElement();
+            button.setForeground(Common.FG_COLOR);
+            button.setBackground(Common.WPB_COLOR);
+            button.setText("<html><body><font color=\"#ffffff\">" + button.getText() + "</font></body></html>");
+        }
 
         // Test case placeholders
         JLabel placeholdersLabel = new JLabel("Test case placeholders:");
@@ -82,14 +90,15 @@ class ConfigurationDialog extends JDialog implements ActionListener {
         javaSupportCheckBox.setSelected(pref.getEnableJavaSupport());
 
         contentPane.add(compilerLabel, new GridBagConstraints(0,0,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
-        contentPane.add(gccRadioButton, new GridBagConstraints(1,0,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
-        contentPane.add(vcRadioButton, new GridBagConstraints(2,0,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
-        contentPane.add(placeholdersLabel, new GridBagConstraints(0,1,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
-        contentPane.add(placeholdersTextField, new GridBagConstraints(1,1,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
-        contentPane.add(switchCheckBox, new GridBagConstraints(0,2,3,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
-        contentPane.add(javaSupportCheckBox, new GridBagConstraints(0,3,3,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
-        contentPane.add(saveButton, new GridBagConstraints(1,4,1,1,0,0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10,10,10,10),0,0));
-        contentPane.add(closeButton, new GridBagConstraints(2,4,1,1,0,0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10,0,10,10),0,0));
+        contentPane.add(gcc11RadioButton, new GridBagConstraints(1,0,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
+        contentPane.add(gcc98RadioButton, new GridBagConstraints(1,1,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
+        contentPane.add(vcRadioButton, new GridBagConstraints(1,2,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
+        contentPane.add(placeholdersLabel, new GridBagConstraints(0,3,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
+        contentPane.add(placeholdersTextField, new GridBagConstraints(1,3,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
+        contentPane.add(switchCheckBox, new GridBagConstraints(0,4,3,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
+        contentPane.add(javaSupportCheckBox, new GridBagConstraints(0,5,3,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10,10,4,4),0,0));
+        contentPane.add(saveButton, new GridBagConstraints(1,6,1,1,0,0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10,10,10,10),0,0));
+        contentPane.add(closeButton, new GridBagConstraints(2,6,1,1,0,0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10,0,10,10),0,0));
 
         // Add listeners
         saveButton.addActionListener(this);
@@ -110,6 +119,13 @@ class ConfigurationDialog extends JDialog implements ActionListener {
             windowHandler.windowClosing(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         }
     }
+    
+    private String getSelectedCompiler() {
+        return 
+            gcc11RadioButton.isSelected() ? Preferences.TARGETCOMPILER_GCC11 :
+            gcc98RadioButton.isSelected() ? Preferences.TARGETCOMPILER_GCC98 : 
+            Preferences.TARGETCOMPILER_VC;
+    }
 
     public boolean save() {
         // Parse
@@ -128,7 +144,7 @@ class ConfigurationDialog extends JDialog implements ActionListener {
 
         // Write out the preferences
         try {
-            pref.setTargetCompiler(gccRadioButton.isSelected() ? Preferences.TARGETCOMPILER_GCC : Preferences.TARGETCOMPILER_VC);
+            pref.setTargetCompiler(getSelectedCompiler());
             pref.setNumPlaceholders(numPlaceholders);
             pref.save();
             Common.showMessage("Save", "Preferences were saved successfully", null);
@@ -147,7 +163,7 @@ class ConfigurationDialog extends JDialog implements ActionListener {
             boolean savePending=false;
 
             savePending =
-                    gccRadioButton.isSelected() != pref.getTargetCompiler().equals(Preferences.TARGETCOMPILER_GCC)
+                    !getSelectedCompiler().equals(pref.getTargetCompiler())
                     ||	!placeholdersTextField.getText().equals("" + pref.getNumPlaceholders())
                     ||  switchCheckBox.isSelected() != pref.getLanguageSwitchWorkaround()
                     ||  javaSupportCheckBox.isSelected() != pref.getEnableJavaSupport();

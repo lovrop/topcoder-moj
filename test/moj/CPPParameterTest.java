@@ -2,10 +2,10 @@ package moj;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import moj.CPPHarnessGenerator.TestCodeGenerationState;
 import moj.mocks.*;
 
 import org.junit.*;
@@ -28,7 +28,7 @@ public class CPPParameterTest {
     }
 
     CPPHarnessGenerator generator;
-    ArrayList<String> code;
+    TestCodeGenerationState code;
 
     @Before public void setUp() {
         generator = new CPPHarnessGenerator(
@@ -36,7 +36,7 @@ public class CPPParameterTest {
                 CPPLanguage.CPP_LANGUAGE,
                 new PreferencesMock()
                 );
-        code = new ArrayList<String>();
+        code = new TestCodeGenerationState();
     }
 
     static String compressSpaceBeforeEquals(String str) {
@@ -74,7 +74,7 @@ public class CPPParameterTest {
     @Test public void test() throws InvalidTypeException {
         DataType dt = DataTypeFactoryMock.getDataType(this.typename);
         generator.generateParameter(code, dt, "var", this.value, false);
-        String result = compressSpaceBeforeEquals(code.get(0).toString());
+        String result = compressSpaceBeforeEquals(code.lines.get(0).toString());
         assertEquals(this.expected, result);
     }
 }

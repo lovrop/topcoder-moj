@@ -1,8 +1,5 @@
 // Paste me into the FileEdit configuration dialog
 
-#include <cmath>
-#include <ctime>
-#include <iostream>
 #include <string>
 #include <vector>
 using namespace std;
@@ -15,7 +12,7 @@ public:
 };
 
 $BEGINCUT$
-$TESTCODE$ 
+$TESTCODE$
 
 $DEFAULTMAIN$
 $ENDCUT$
